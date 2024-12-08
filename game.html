@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>64.0 Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+        }
+        canvas {
+            display: block;
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <audio id="metalMusic" loop>
+        <source src="your-metal-track.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        // Telegram WebApp Initialization
+        Telegram.WebApp.ready();
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = window.innerHeight * 0.9;
+
+        const squareSize = 50;
+        let squareColor = "red";
+        let backgroundColor = "blue";
+
+        let squareX = Math.random() * (canvas.width - squareSize);
+        let squareY = Math.random() * (canvas.height - squareSize);
+
+        function drawBackground() {
+            ctx.fillStyle = backgroundColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function drawSquare() {
+            ctx.fillStyle = squareColor;
+            ctx.fillRect(squareX, squareY, squareSize, squareSize);
+        }
+
+        function updateGame() {
+            backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+            squareX = Math.random() * (canvas.width - squareSize);
+            squareY = Math.random() * (canvas.height - squareSize);
+            drawBackground();
+            drawSquare();
+        }
+
+        canvas.addEventListener('click', (event) => {
+            const x = event.clientX - canvas.offsetLeft;
+            const y = event.clientY - canvas.offsetTop;
+
+            if (
+                x > squareX &&
+                x < squareX + squareSize &&
+                y > squareY &&
+                y < squareY + squareSize
+            ) {
+                updateGame();
+            }
+        });
+
+        // Music Control
+        const music = document.getElementById('metalMusic');
+        const savedVolume = localStorage.getItem("musicVolume");
+        music.volume = savedVolume !== null ? savedVolume : 0.5; // Use saved volume or default to 0.5
+        music.play();
+
+        // Game Loop
+        drawBackground();
+        drawSquare();
+    </script>
+</body>
+</html>
