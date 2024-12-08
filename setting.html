@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>64.0 Settings</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        label, button {
+            margin: 10px;
+            font-size: 18px;
+        }
+        input[type="range"] {
+            width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #444;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Настройки</h1>
+    <label for="volumeControl">Громкость музыки:</label>
+    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+    <button onclick="saveSettings()">Сохранить</button>
+    <button onclick="goBack()">Назад</button>
+
+    <script>
+        const volumeControl = document.getElementById("volumeControl");
+
+        // Загрузка сохраненной громкости
+        volumeControl.value = localStorage.getItem("musicVolume") || 0.5;
+
+        function saveSettings() {
+            localStorage.setItem("musicVolume", volumeControl.value);
+            alert("Настройки сохранены!");
+        }
+
+        function goBack() {
+            window.location.href = "start.html";
+        }
+    </script>
+</body>
+</html>
